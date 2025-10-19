@@ -7,28 +7,7 @@ Drop existing tables (if they already exist) and re-define the DDL structure for
 ```sql
 -- (Bronze table definitions would be listed here)
 
---1) Creating DWH
-
---CREATE DATABASE DataWarehouse;
-
---USE DataWarehouse;
-
---2)Creating Schema for each Layer:
-
---GO
---CREATE SCHEMA Silver;
-
---GO
---CREATE SCHEMA Bronze;
-
---GO
---CREATE SCHEMA Gold;
-
---GO
---Creating Stored Procedure for Bronze Layer:
-CREATE OR ALTER PROCEDURE bronze.load_bronze AS
-BEGIN 
-	--3) Creating Bronze Layer for CRM files:
+ --Creating Bronze Layer for CRM files:
 
 	-- Creating Customer Info table:
 
@@ -45,23 +24,6 @@ BEGIN
 	cst_create_date DATE
 	)
 
-	TRUNCATE Bronze.crm_cust_info;
-
-	BULK INSERT Bronze.crm_cust_info
-	FROM 'D:\Python\projects\DWH Demo Project\Resources\datasets\source_crm\cust_info.CSV'
-	WITH(
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',' ,
-	TABLOCK
-	);
-
-	--Data Quality Queries
-
-	SELECT * FROM Bronze.crm_cust_info;
-
-	SELECT COUNT(*) FROM Bronze.crm_cust_info;
-
-
 
 	-- Creating Product Info table:
 
@@ -77,23 +39,6 @@ BEGIN
 	prd_start_dt DATE,
 	prd_end_dt DATE
 	)
-
-	TRUNCATE Bronze.crm_prd_info;
-
-	BULK INSERT Bronze.crm_prd_info
-	FROM 'D:\Python\projects\DWH Demo Project\Resources\datasets\source_crm\prd_info.CSV'
-	WITH(
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-	)
-
-	--Data Quality Queries
-
-	SELECT * FROM Bronze.crm_prd_info;
-
-	SELECT COUNT(*) FROM Bronze.crm_prd_info;
-
 
 
 	--Creating Sales Details table:
@@ -116,23 +61,6 @@ BEGIN
 	ALTER TABLE Bronze.crm_sales_details
 	ALTER COLUMN sls_ord_num NVARCHAR(50);
 
-	TRUNCATE Bronze.crm_sales_details;
-
-	BULK INSERT Bronze.crm_sales_details
-	FROM 'D:\Python\projects\DWH Demo Project\Resources\datasets\source_crm\sales_details.CSV'
-	WITH(
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-	)
-
-	--Data Quality Queries
-
-	SELECT * FROM Bronze.crm_sales_details;
-
-	SELECT COUNT(*) FROM Bronze.crm_sales_details;
-
-
 
 	--4) Creating Bronze Layer for ERP files:
 
@@ -147,23 +75,6 @@ BEGIN
 	GEN NVARCHAR (50)
 	)
 
-	TRUNCATE Bronze.erp_CUST_AZ12;
-
-	BULK INSERT Bronze.erp_CUST_AZ12
-	FROM 'D:\Python\projects\DWH Demo Project\Resources\datasets\source_erp\CUST_AZ12.csv'
-	WITH(
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK 
-	)
-
-	--Data Quality Queries
-
-	SELECT * FROM Bronze.erp_CUST_AZ12;
-
-	SELECT COUNT(*) FROM Bronze.erp_CUST_AZ12;
-
-
 
 	--Creating Location table:
 
@@ -174,23 +85,6 @@ BEGIN
 	CID NVARCHAR(50),
 	CNTRY NVARCHAR(50)
 	)
-
-	TRUNCATE Bronze.erp_LOC_A101;
-
-	BULK INSERT Bronze.erp_LOC_A101
-	FROM 'D:\Python\projects\DWH Demo Project\Resources\datasets\source_erp\LOC_A101.csv'
-	WITH(
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK 
-	)
-
-	--Data Quality Queries
-
-	SELECT * FROM Bronze.erp_LOC_A101;
-
-	SELECT COUNT(*) FROM Bronze.erp_LOC_A101;
-
 
 
 	--Creating Category table:
@@ -205,20 +99,5 @@ BEGIN
 	MAINTENANCE NVARCHAR(50)
 	)
 
-	TRUNCATE Bronze.erp_PX_CAT_G1V2;
 
-	BULK INSERT Bronze.erp_PX_CAT_G1V2
-	FROM 'D:\Python\projects\DWH Demo Project\Resources\datasets\source_erp\PX_CAT_G1V2.csv'
-	WITH(
-	FIRSTROW = 2,
-	FIELDTERMINATOR = ',',
-	TABLOCK
-	)
 
-	--Data Quality Queries
-
-	SELECT * FROM Bronze.erp_PX_CAT_G1V2;
-
-	SELECT COUNT(*) FROM Bronze.erp_PX_CAT_G1V2;
-
-END;
