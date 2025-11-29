@@ -1,4 +1,3 @@
-# DataWarehouse-Project
 # Data Warehouse and Analytics Project
 
 ## 🏗️ Data Architecture
